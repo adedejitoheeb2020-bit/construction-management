@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create ({
-    base_url: "http://127.0.0.1:8000/api",
-    withcredentials: true,
+    baseURL: "http://127.0.0.1:8000/api",
+    withCredentials: true,
 });
 
 let isRefreshing = false;
@@ -31,7 +31,7 @@ api.interceptors.response.use (
             if (isRefreshing) {
                 return new Promise((resolve) => {
                     subscribeTokenRefresh((tokens) => {
-                        originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                        originalRequest.headers["Authorization"] = `Bearer ${tokens}`;
                         resolve (api(originalRequest));
                     });
                 });
@@ -41,7 +41,7 @@ api.interceptors.response.use (
             isRefreshing = True;
 
             try {
-                const res = await axios.post(" http://127.0.0.1:8000/api/refresh/", {}, { withcredentials: True});
+                const res = await axios.post(" http://127.0.0.1:8000/api/refresh/", {}, { withCredentials: true});
                 const newToken = res.data.access;
                 localStorage.setItem = ("access", newToken);
                 api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;

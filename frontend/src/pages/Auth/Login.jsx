@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -26,10 +26,9 @@ export default function login() {
         setSuccessMsg("");
 
         try {
-            const res = await axios.post(
-                 "http://127.0.0.1:8000/api/auth/login/",
+            const res = await api.post(
+                 "/auth/login/",
                  form,
-                 { withCredentials: true},
             );
             if (res.data?.access) {
                 localStorage.setItem("access", res.data.access);

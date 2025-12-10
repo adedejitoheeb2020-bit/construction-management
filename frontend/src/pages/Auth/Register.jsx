@@ -1,5 +1,5 @@
 import { useState} from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -31,10 +31,9 @@ export default function Register() {
         setLoading(true);
 
         try {
-            const res = await axios.post(
-                "http://127.0.0.1:8000/api/auth/register/",
+            const res = await api.post(
+                "/auth/register/",
                 form,
-                { withCredentials: true}
             );
 
             if (res.data?.access) {
