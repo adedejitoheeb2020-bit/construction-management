@@ -97,6 +97,14 @@ class RefreshTokenView(APIView):
         except Exception:
             return Response({"detail": "Invalid refresh token"}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def Logout (request):
+    res = Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+    res.delete_cookie("refresh", path="/")
+    return res
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -224,7 +232,6 @@ class OrganizationalViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    pagination_class = ProjectPagination
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

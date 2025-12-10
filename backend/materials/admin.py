@@ -4,8 +4,14 @@ from .models import CustomUser, Project, Material, Organization, MaterialUsage, 
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('username', 'email', 'is_staff', 'is_active')
+    list_display = ('username', 'email', 'role', 'is_staff', 'is_active')
+    list_filter = ('role',)
     search_fields = ('username', 'email')
+
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Roles and Permissions', {'fields': ('role', 'is_staff', 'is_active')}),
+    )
 
     add_fieldsets = (
     (None, {

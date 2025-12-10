@@ -27,13 +27,17 @@ class OrganizationalSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProjectSerializer(serializers.ModelSerializer):
+    weather = serializers.SerializerMethodField()
     class Meta:
         model = Project
         fields = ['id', 'name', 'location', 'start_date', 'expected_end_date', 'latitude', 'longitude', 'weather']
-        read_only_fields = ['start_date', 'expected_end_date', 'latitude', 'longitude', 'weather']
+        read_only_fields = ['weather']
 
     def get_weather(self, obj):
-        return get_weather(obj.latitude, obj.longitude)
+        try:
+            return get_weather(obj.latitude, obj.longitude)
+        except Exception:
+            return None
 
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
