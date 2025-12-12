@@ -4,6 +4,7 @@ import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import DashboardLayout from "./layouts/DashboardLayout";
+import Notifications from "./pages/Notifications";
 
 export default function App() {
   return (
@@ -22,7 +23,13 @@ export default function App() {
             <Projects />
           </DashboardLayout>
           }
-        />    
+        />
+        <Route path="/notifications" element={
+          <DashboardLayout>
+            <Notifications />
+          </DashboardLayout>
+          }
+        />      
 
       </Routes>
     </BrowserRouter>

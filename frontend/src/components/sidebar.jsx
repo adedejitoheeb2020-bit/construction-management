@@ -14,6 +14,7 @@ export default function Sidebar() {
             <nav className="flex flex-col gap-2">
                 <Link className={linkClass("/dashboard")} to="/dashboard">Dashboard</Link>
                 <Link className={linkClass("/projects")} to="/projects">Projects</Link>
+                <Link className={linkClass("/notifications")} to="/notifications">Notifications</Link>
             </nav>
         </div>
     )    
