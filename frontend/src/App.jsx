@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Notifications from "./pages/Notifications";
+import ProjectDetails from "./pages/ProjectDetails";
 
 export default function App() {
   return (
@@ -24,12 +25,20 @@ export default function App() {
           </DashboardLayout>
           }
         />
+
         <Route path="/notifications" element={
           <DashboardLayout>
             <Notifications />
           </DashboardLayout>
           }
-        />      
+        />
+
+        <Route path="/projects/:id" element={
+          <DashboardLayout>
+            <ProjectDetails />
+          </DashboardLayout>
+          }
+        />            
 
       </Routes>
     </BrowserRouter>

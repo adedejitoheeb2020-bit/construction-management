@@ -2,7 +2,7 @@ export default function Button ({children, onClick, variant = "primary", classNa
     const base = "px-4 py-2 rounded-md font-medium focus:outline-none";
     const variants = {
         primary: "bg-blue-600 text-white hover:bg-blue-700",
-        ghost: "bg-transparent text-gray-700 hover:bg-gray-200",
+        ghost: "bg-transparent text-gray-700 hover:bg-gray-300",
         danger: "bg-red-600 text-white hover:bg-red-700",
     }
     return (
