@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Project, Material, Organization, MaterialUsage, WasteRecord, Notification
+from .models import (CustomUser, Project, Material, Organization, WasteRecord,
+                     Notification, ProjectMaterial, LookAheadItem, LookAheadPlan)
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -24,7 +25,9 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Project)
 admin.site.register(Material)
 admin.site.register(Organization)
-admin.site.register(MaterialUsage)
 admin.site.register(WasteRecord)
 admin.site.register(Notification)
+admin.site.register(ProjectMaterial)
+admin.site.register(LookAheadItem)
+admin.site.register(LookAheadPlan)
 # Register your models here.

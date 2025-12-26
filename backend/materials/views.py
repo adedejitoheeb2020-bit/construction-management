@@ -3,12 +3,14 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 
-from .models import Project, Material, MaterialUsage, WasteRecord, Organization, CustomUser, Notification, WeatherAlert
-from .permissions import IsStorekeeperOrReadOnly
+from .models import Project, Material, WasteRecord, Organization, CustomUser, Notification, WeatherAlert, \
+    ProjectMaterial, LookAheadPlan
+from .permissions import IsStorekeeperOrReadOnly, IsAdminOrReadOnly
 from .open_meteo import get_weather, generate_weather_alert
-from .serializers import ProjectSerializer, MaterialSerializer, MaterialUsageSerializer, WasteRecordSerializer, \
-    OrganizationalSerializer, CustomTokenObtainPairSerializer, UserSerializer, NotificationSerializer, \
-    WeatherAlertSerializer
+
+from .serializers import (ProjectSerializer, MaterialSerializer, WasteRecordSerializer, OrganizationalSerializer,
+                          CustomTokenObtainPairSerializer, UserSerializer, NotificationSerializer,
+                          WeatherAlertSerializer, ProjectMaterialSerializer, LookAheadPlanSerializer)
 
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
@@ -22,14 +24,25 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from django.http import FileResponse
 
-from .pagination import ProjectPagination
+from requests.exceptions import ConnectionError, Timeout, RequestException
+import logging
+logger = logging.getLogger(__name__)
 
-class NotificationViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+
+class NotificationViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
+                          mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     serializer_class = NotificationSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Notification.objects.filter(user=self.request.user).order_by('-created_at')
+
+    @action(detail=True, methods=['patch'])
+    def mark_as_read(self, request, pk=None):
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save()
+        return Response({"detail": "Marked as read"})
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -109,7 +122,7 @@ def Logout (request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def material_alerts(request, project_id):
-    usages = MaterialUsage.objects.filter(project_id = project_id)
+    usages = Material.objects.filter(project_id = project_id)
     alert_threshold = 80
     alerts = []
 
@@ -134,13 +147,13 @@ def material_alerts(request, project_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def cost_report(request, project_id):
-    usages = MaterialUsage.objects.filter(project_id=project_id)
+    usages = Material.objects.filter(project_id=project_id)
     wastes = WasteRecord.objects.filter(project_id=project_id)
     total_cost = 0
     waste_cost = 0
 
     for usage in usages:
-        material_cost = usage.quantity_used * usage.material.cost_per_unit
+        material_cost = usage.quantity_used * usage.cost_per_unit
         total_cost += material_cost
 
     for waste in wastes:
@@ -158,7 +171,7 @@ def cost_report(request, project_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def carbon_report(request, project_id):
-    usages = MaterialUsage.objects.filter(project_id=project_id)
+    usages = Material.objects.filter(project_id=project_id)
     wastes = WasteRecord.objects.filter(project_id=project_id)
     total_co2 = 0
     waste_co2 = 0
@@ -182,7 +195,7 @@ def carbon_report(request, project_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def project_summary(request, project_id):
-    total_used = MaterialUsage.objects.filter(project_id=project_id).aggregate(Sum('quantity_used'))['quantity_used__sum'] or 0
+    total_used = Material.objects.filter(project_id=project_id).aggregate(Sum('quantity_used'))['quantity_used__sum'] or 0
     total_waste = WasteRecord.objects.filter(project_id=project_id).aggregate(Sum('waste_quantity'))['waste_quantity__sum'] or 0
 
     summary = {
@@ -196,7 +209,7 @@ def project_summary(request, project_id):
 @permission_classes([IsAuthenticated])
 def pdf_report(request, project_id):
     project = Project.objects.get(id=project_id)
-    usages = MaterialUsage.objects.filter(project_id=project_id)
+    usages = Material.objects.filter(project_id=project_id)
     wastes = WasteRecord.objects.filter(project_id=project_id)
 
     total_cost = sum(u.quantity_used * u.material.cost_per_unit for u in usages)
@@ -232,7 +245,7 @@ class OrganizationalViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -245,7 +258,15 @@ class ProjectWeatherView(APIView):
 
     def get(self, request, pk):
         project = get_object_or_404(Project, pk=pk)
-        weather_data = get_weather(project.latitude, project.longitude)
+
+        try:
+            weather_data = get_weather(project.latitude, project.longitude)
+        except ConnectionError:
+            logger.error("Connection error")
+            return Response({
+                "detail": "Connection error",
+                "weather_data": None
+            }, status=500)
 
         return Response({
             "project": project.name,
@@ -269,6 +290,20 @@ class ProjectWeatherAlertView(APIView):
             "alerts_generated": serializer.data
         })
 
+class ProjectMaterialViewSet(viewsets.ModelViewSet):
+    queryset = ProjectMaterial.objects.all()
+    serializer_class = ProjectMaterialSerializer
+    permission_classes = [IsAuthenticated, IsStorekeeperOrReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        project_id = self.request.query_params.get("project_id")
+        queryset = ProjectMaterial.objects.filter(project__workers=user)
+        if project_id:
+            queryset = queryset.filter(project_id=project_id)
+
+        return queryset.distinct()
+
 class MaterialViewSet(viewsets.ModelViewSet):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
@@ -280,9 +315,93 @@ class MaterialViewSet(viewsets.ModelViewSet):
             return Material.objects.all()
         return Material.objects.filter(project__workers=user)
 
-class MaterialUsageViewSet(viewsets.ModelViewSet):
-    queryset = MaterialUsage.objects.all()
-    serializer_class = MaterialUsageSerializer
+class LookAheadPlanViewSet(viewsets.ModelViewSet):
+    queryset = LookAheadPlan.objects.all()
+    serializer_class = LookAheadPlanSerializer
+
+    def perform_create(self, serializer):
+        lookahead = serializer.save()
+        engineer = lookahead.project.workers.filter(role='engineer').first()
+        Notification.objects.create(
+            user=engineer,
+            title="Look Ahead Plan",
+            message=f"Lookahead has been created",
+            url = f"/lookaheads/{lookahead.id}/siteLead",
+            related_object_id=lookahead.id,
+            related_object_type="LookAheadPlan",
+        )
+
+    @action(detail=True, methods=['patch'], url_path="site-lead/approve")
+    def site_lead_approve(self, request, pk=None):
+        lookahead = self.get_object()
+        lookahead.site_lead_status = "approved"
+        lookahead.site_lead_comment = request.data.get("comment", "")
+        lookahead.save()
+        procurement_user = lookahead.project.workers.filter(role="procurement").first()
+        week_start = request.data.get("week_start")
+        week_end = request.data.get("week_end")
+        Notification.objects.create(
+            user=procurement_user,
+            title="Look Ahead Plan",
+            message=f"Lookahead for {week_start} to {week_end}",
+            url=f"/lookaheads/{lookahead.id}/procurement",
+            related_object_id=lookahead.id,
+            related_object_type="LookAheadPlan",
+        )
+        return Response({"detail": "Approved by site lead"})
+
+    @action(detail=True, methods=["patch"], url_path="site-lead/reject")
+    def site_lead_reject(self, request, pk=None):
+
+        lookahead = self.get_object()
+        lookahead.site_lead_status = "rejected"
+        lookahead.site_lead_comment = request.data.get("comment", "")
+        lookahead.save()
+        junior_engineer = lookahead.created_by
+        Notification.objects.create(
+            user=junior_engineer,
+            title="Look Ahead Plan",
+            message="Your look-ahead submission was rejected by the site lead.",
+            related_object_id=lookahead.id,
+            related_object_type="LookAheadPlan",
+        )
+        return Response({"detail": "Rejected by site lead"})
+
+    @action(detail=True, methods=["patch"], url_path="procurement/approve")
+    def procurement_approve(self, request, pk=None):
+        lookahead = self.get_object()
+        lookahead.procurement_status = "approved"
+        lookahead.procurement_comment = request.data.get("comment", "")
+        lookahead.save()
+        engineer = lookahead.project.workers.filter(role="engineer").first()
+        Notification.objects.create(
+            user=engineer,
+            title="Look Ahead Plan",
+            message="Your look-ahead submission was approved.",
+            related_object_id=lookahead.id,
+            related_object_type="LookAheadPlan",
+        )
+
+        return Response({"detail": "Approved by procurement"})
+
+    @action(detail=True, methods=["patch"], url_path="procurement/reject")
+    def procurement_reject(self, request, pk=None):
+        lookahead = self.get_object()
+        lookahead.procurement_status = "rejected"
+        lookahead.procurement_comment = request.data.get("comment", "")
+        lookahead.save()
+        engineer = lookahead.project.workers.filter(role="engineer").first()
+        Notification.objects.create(
+            user=engineer,
+            title="Look Ahead Plan",
+            message="Your look-ahead submission was rejected.",
+            related_object_id=lookahead.id,
+            related_object_type="LookAheadPlan",
+
+        )
+
+        return Response({"detail": "Rejected by procurement"})
+
 
 class WasteRecordViewSet(viewsets.ModelViewSet):
     queryset = WasteRecord.objects.all()
