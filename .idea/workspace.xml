@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="updated commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/base/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/base/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="Add Lookahead endpoint" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +18,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -62,7 +59,7 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/HP/Desktop/PythonProject/PythonProject/Construction Materials&quot;
   }
 }</component>
@@ -97,7 +94,23 @@
       <option name="project" value="LOCAL" />
       <updated>1765128134520</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Improve projects endpoint and add logout endpoint">
+      <option name="closed" value="true" />
+      <created>1765374212765</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1765374212765</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add Lookahead endpoint">
+      <option name="closed" value="true" />
+      <created>1766721860720</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766721860720</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -106,11 +119,43 @@
         <entry key="a7829ea7-85fe-4fc2-91fe-3eb3a26ded49" value="TOOL_WINDOW" />
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
         <entry key="a7829ea7-85fe-4fc2-91fe-3eb3a26ded49">
@@ -124,6 +169,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="updated commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated commit" />
+    <MESSAGE value="Improve projects endpoint and add logout endpoint" />
+    <MESSAGE value="Add Lookahead endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Lookahead endpoint" />
   </component>
 </project>
