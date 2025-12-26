@@ -16,7 +16,7 @@ export default function login() {
     const [successMsg, setSuccessMsg] = useState("");
 
     const handlechange = (e) => {
-        setForm ({...form, [e.target.name]: e.target.value});
+        setForm (prev => ({...prev, [e.target.name]: e.target.value}));
     }
 
     const handlesubmit = async (e) => {

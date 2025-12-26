@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import Card from "../components/Card";
 import Modal from "../components/Modal";
-import Button from "../components/Button";
+import {Button} from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
-  const [form, setForm] = useState({ name:"", location:"", start_date:"", latitude:"", longitude:""});
+  const [form, setForm] = useState({ name:"", location:"", start_date:"", expected_end_date:"", latitude:"", longitude:""});
   const [activeModal, setActiveModal] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -29,7 +30,7 @@ export default function Projects() {
     try {
       await api.post("/projects/", form);
       setActiveModal(null);
-      setForm({name:"", location:"", start_date:"", latitude:"", longitude:""});
+      setForm({name:"", location:"", start_date:"", expected_end_date:"", latitude:"", longitude:""});
       getprojects();
     } catch (err) {
     }
@@ -64,7 +65,8 @@ export default function Projects() {
                 <td className="p-3">
                   <a href={`/projects/${p.id}`} className="text-blue-600">Open</a>
                 </td>
-                <td><button onClick={() => {setSelectedProject(p); setActiveModal("delete");}} className="text-red-600">Delete</button>
+                <td><button onClick={() => {setSelectedProject(p); setActiveModal("delete");}} 
+                className="text-red-500 hover:text-red-700"> <Trash2 className="w-4 h-4" /></button>
                 </td>
               </tr>
             ))}
@@ -117,7 +119,7 @@ export default function Projects() {
                   await api.delete(`/projects/${selectedProject.id}/`);
                   setActiveModal(null);
                   getprojects();
-                }} variant="danger">Delete</Button>
+                }} variant="destructive">Delete</Button>
         </div>
       </Modal>
     </div>

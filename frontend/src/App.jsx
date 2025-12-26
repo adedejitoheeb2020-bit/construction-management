@@ -5,7 +5,11 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Notifications from "./pages/Notifications";
-import ProjectDetails from "./pages/ProjectDetails";
+import ProjectTabsLayout from "./layouts/ProjectTabLayout";
+import ProjectDetailsPage from "./pages/ProjectDetails";
+import ProjectMaterialsPage from "./pages/ProjectMaterial";
+import LookAheadSiteLead from "./pages/LookAheadSiteLead";
+import LookAheadSubmit from "./pages/LookAheadSubmit";
 
 export default function App() {
   return (
@@ -13,32 +17,18 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={
-          <DashboardLayout>
-            <Dashboard />
-          </DashboardLayout>
-          }
-        />
-        <Route path="/projects" element={
-          <DashboardLayout>
-            <Projects />
-          </DashboardLayout>
-          }
-        />
-
-        <Route path="/notifications" element={
-          <DashboardLayout>
-            <Notifications />
-          </DashboardLayout>
-          }
-        />
-
-        <Route path="/projects/:id" element={
-          <DashboardLayout>
-            <ProjectDetails />
-          </DashboardLayout>
-          }
-        />            
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="projects/:id" element={<ProjectTabsLayout />}>
+            <Route index element={<ProjectDetailsPage />} />
+            <Route path="materials" element={<ProjectMaterialsPage />} />
+            <Route path="lookahead" element={<LookAheadSubmit />} />
+          </Route>  
+        </Route>
+        <Route path="/lookaheads/:id/siteLead" element={<LookAheadSiteLead />} />
+        
 
       </Routes>
     </BrowserRouter>

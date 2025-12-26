@@ -1,4 +1,6 @@
 import {Link, useLocation} from "react-router-dom";
+import NotificationBell from "@/components/notifications/NotificationBell";
+
 
 export default function Sidebar() {
     const { pathname } = useLocation();
@@ -14,7 +16,10 @@ export default function Sidebar() {
             <nav className="flex flex-col gap-2">
                 <Link className={linkClass("/dashboard")} to="/dashboard">Dashboard</Link>
                 <Link className={linkClass("/projects")} to="/projects">Projects</Link>
-                <Link className={linkClass("/notifications")} to="/notifications">Notifications</Link>
+                <div className="p-3 flex items-center gap-2">
+                    <NotificationBell />
+                </div>
+               
             </nav>
         </div>
     )    

@@ -14,7 +14,7 @@ export default function Register() {
     const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
     const handlechange = (e) => {
-        setForm({...form, [e.target.name]: e.target.value})
+        setForm(prev => ({...form, [e.target.name]: e.target.value}))
     }
     const navigate = useNavigate();
 

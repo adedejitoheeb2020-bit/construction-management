@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import Button from "./Button";
+import {Button} from "./ui/button";
 import Modal from "./Modal";
 import { useState } from "react";
+import { LogOut} from "lucide-react";
 
 export default function Topbar() {
     const navigate = useNavigate();
@@ -11,7 +12,8 @@ export default function Topbar() {
     return (
         <div className="w-full bg-gray-200 p-4 flex justify-between items-center">
             <h1 className="text-xl font-semibold">Admin</h1>
-            <Button variant="danger" onClick= {() => setActiveModal("logout")}>Logout</Button>
+            <Button variant="secondary" className="text-red-500 hover:text-red-600 hover:bg-red-50" onClick= {() => setActiveModal("logout")}>
+              <LogOut className="w-4 h-4"/>Logout</Button>
 
             <Modal open={activeModal === "logout"} onClose={() => setActiveModal(null)} title="Logout" className="!w-[350px]">
               <h2 className="mb-4">Are you sure you want to Logout?</h2>
@@ -23,7 +25,7 @@ export default function Topbar() {
                   localStorage.removeItem("access");
                   navigate("/");
                 }}
-                variant="danger">Logout</Button>
+                className="bg-red-50 text-red-500">Logout</Button>
               </div>
 
             </Modal>
