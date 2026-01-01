@@ -10,7 +10,7 @@ export default function Sidebar() {
         ? "bg-blue-600 text-white p-3 rounded-lg" : "p-3 rounded-lg hover:bg-gray-200";
 
     return (
-        <div className="w-64 min-h-screen bg-gray-200 p-5">
+        <div className="w-64 min-h-screen p-5">
             <h2 className="text-2xl font-bold mb-6">Home</h2>
 
             <nav className="flex flex-col gap-2">

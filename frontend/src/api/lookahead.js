@@ -12,8 +12,8 @@ export const siteLeadApprove = (id) =>
 export const siteLeadReject = (id) => 
     api.patch(`/lookahead/${id}/site-lead/reject/`);
 
-export const procurementApprove = (id, comment) => 
-    api.patch(`/lookahead/${id}/procurement/approve/`, {comment});
+export const procurementApprove = (id) => 
+    api.patch(`/lookahead/${id}/procurement/approve/`);
 
 export const procurementReject = (id, comment) => 
-    api.patch(`/lookahead/${id}/procurement/reject/`, {comment});
+    api.patch(`/lookahead/${id}/procurement/reject/`);

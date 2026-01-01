@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import api from "../services/api";
 import Modal from "../components/Modal";
+import {Dialog, DialogTitle, DialogContent} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export default function ProjectMaterialsPage() {
   const [projectmaterials, setProjectMaterials] = useState([]);
@@ -65,34 +67,37 @@ export default function ProjectMaterialsPage() {
             <Button variant="outline" onClick={() => setActiveModal("Edit")}>Edit material</Button> 
           </div>
 
-          <Modal open = {activeModal === "Add"} onClose = {() => setActiveModal(null)} title = "Add Material">
-            <form onSubmit = {handleadd} className = "space-y-3">
-              <div>
-                <label className = "text-gray-700 text-sm font-medium"> Material Name
-                  <input value={formMaterials.name} type="text" name="name" autoComplete="name" onChange={handlechange} className="w-full border p-2 rounded" placeholder="Material name"/>
-                </label>
-              </div>
+          <Dialog open = {activeModal === "Add"} onOpenChange = {() => setActiveModal(null)}>
+            <DialogContent>
+              <DialogTitle>Add Material</DialogTitle>
+              <form onSubmit = {handleadd} className = "space-y-3">
+                <div>
+                  <label className = "text-gray-700 text-sm font-medium"> Material Name
+                    <Input value={formMaterials.name} type="text" name="name" autoComplete="name" onChange={handlechange} className="w-full border p-2 rounded" placeholder="Material name"/>
+                  </label>
+                </div>
 
-              <div>  
-                <label className = "text-gray-700 text-sm font-medium"> Unit
-                  <input value={formMaterials.unit} type="text" name="unit" autoComplete="unit" onChange={handlechange} className="w-full border p-2 rounded" placeholder="Unit" />
-                </label>
-              </div>
+                <div>  
+                  <label className = "text-gray-700 text-sm font-medium"> Unit
+                    <Input value={formMaterials.unit} type="text" name="unit" autoComplete="unit" onChange={handlechange} className="w-full border p-2 rounded" placeholder="Unit" />
+                  </label>
+                </div>
 
-              <div>  
-                <label className = "text-gray-700 text-sm font-medium"> co2_factor
-                  <input value={formMaterials.co2_factor} type="number" name="co2_factor" autoComplete="co2_factor" onChange={handlechange} className="w-full border p-2 rounded" placeholder="co2_factor"/>
-                </label>
-              </div>
+                <div>  
+                  <label className = "text-gray-700 text-sm font-medium"> co2_factor
+                    <Input value={formMaterials.co2_factor} type="number" name="co2_factor" autoComplete="co2_factor" onChange={handlechange} className="w-full border p-2 rounded" placeholder="co2_factor"/>
+                  </label>
+                </div>
 
-              <div className="flex justify-end">
-                <Button variant="ghost" onClick={() => setActiveModal(null)}>Cancel</Button>
-                <Button type="submit" className="ml-3">Add</Button>
-              </div>
+                <div className="flex justify-end">
+                  <Button variant="ghost" onClick={() => setActiveModal(null)}>Cancel</Button>
+                  <Button type="submit" className="ml-3">Add</Button>
+                </div>
 
-            </form>
+              </form>
+            </DialogContent>
 
-          </Modal>
+          </Dialog>
         </div>
 
         {/* Summary */}

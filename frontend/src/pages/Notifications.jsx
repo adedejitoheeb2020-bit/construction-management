@@ -14,7 +14,7 @@ export default function Notifications() {
     }
 
     return (
-        <div className="p-6 space-y-4">
+        <div className="bg-gray-50 rounded-xl p-6 space-y-4">
             <h1 className="text-2xl font-semibold">Notifications</h1>
             {notifications.length === 0 && (
                 <p className="text-muted-foreground">No notifications available</p>

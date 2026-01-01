@@ -6,14 +6,14 @@ export default function ProjectTabsLayout() {
   const tabs = [
     { name: "Overview", path: `/projects/${id}` },
     { name: "Materials", path: `/projects/${id}/materials` },
-    { name: "lookahead", path: `/projects/${id}/lookahead` },
+    { name: "lookahead", path: `/projects/${id}/lookaheads` },
     { name: "Expenses", path: `/projects/${id}/expenses` },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Tabs Header */}
-      <div className="border-b bg-white">
+      <div className="border bg-gray-50 rounded-xl mb-6">
         <div className="max-w-6xl mx-auto px-6">
           <nav className="flex gap-6">
             {tabs.map((tab) => (
@@ -37,7 +37,7 @@ export default function ProjectTabsLayout() {
       </div>
 
       {/* Tab Content */}
-      <div className="max-w-6xl mx-auto px-6 py-6">
+      <div className="max-w-6xl mx-auto px-6 py-6 bg-gray-50 border rounded-xl">
         <Outlet />
       </div>
     </div>
