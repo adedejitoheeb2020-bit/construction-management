@@ -11,9 +11,9 @@ export default function ProjectTabsLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Tabs Header */}
-      <div className="border bg-gray-50 rounded-xl mb-6">
+      <div className="border bg-gray-100 rounded-xl mb-6">
         <div className="max-w-6xl mx-auto px-6">
           <nav className="flex gap-6">
             {tabs.map((tab) => (
@@ -37,7 +37,7 @@ export default function ProjectTabsLayout() {
       </div>
 
       {/* Tab Content */}
-      <div className="max-w-6xl mx-auto px-6 py-6 bg-gray-50 border rounded-xl">
+      <div className="max-w-6xl mx-auto px-6 py-6 bg-gray-100 border rounded-xl">
         <Outlet />
       </div>
     </div>

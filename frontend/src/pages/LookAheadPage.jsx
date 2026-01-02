@@ -29,7 +29,7 @@ export default function LookAheadPage() {
           transition={{ duration: 1 }}
           className="max-w-6xl mx-auto"
         >
-            <Card>
+            <Card className="bg-slate-50">
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold">Lookahead</h1>
@@ -40,7 +40,7 @@ export default function LookAheadPage() {
                 </CardHeader>
 
                 <CardContent>
-                    <div className="rounded-lg border bg-white">
+                    <div className="rounded-lg border bg-slate-50">
                         <table className="w-full text-sm">
                             <thead className="border-b bg-gray-100">
                                 <tr>

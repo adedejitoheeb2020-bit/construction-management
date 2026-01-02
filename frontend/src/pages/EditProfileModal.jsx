@@ -1,17 +1,24 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import api from "@/services/api";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import { jwtDecode } from "jwt-decode";
 
-export default function EditProfileModal({open, onClose}) {
-    const [user, setUser] = useState({});
+export default function EditProfileModal({open, onClose, user, setUser}) {
     const [form, setForm] = useState({
         username: user.username || "",
         phone: user.phone || "",
     })
-   
+
+    useEffect(() => {
+        if (user) {
+            setForm({
+                username: user.username || "",
+                phone: user.phone || "",
+            })
+        }
+    }, [user])
 
     const handleChange = (e) => {
         setForm(prev => ({...prev, [e.target.name]: e.target.value}));
@@ -38,21 +45,24 @@ export default function EditProfileModal({open, onClose}) {
                     <DialogTitle>Edit Profile</DialogTitle>
                 </DialogHeader>
 
-                <Input 
-                  name="username"
-                  placeholder="Username"
-                  value={form.username}
-                  onChange={handleChange}
-                />
+                <label> Username
+                    <Input 
+                    name="username"
+                    placeholder="Username"
+                    value={form.username}
+                    onChange={handleChange}
+                    />
+                </label>
                 
-
-                <Input 
-                  name="phone"
-                  type="tel"
-                  placeholder="Phone number"
-                  value={form.phone}
-                  onChange={handleChange}
-                />
+                <label> Phone Number
+                    <Input 
+                    name="phone"
+                    type="tel"
+                    placeholder="Phone number"
+                    value={form.phone}
+                    onChange={handleChange}
+                    />
+                </label>
 
                 <div className="flex justify-end gap-2">
                     <Button variant="outline" onClick={onClose}>Cancel</Button>

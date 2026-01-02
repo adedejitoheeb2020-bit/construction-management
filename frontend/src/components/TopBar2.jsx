@@ -3,13 +3,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem,
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {useNavigate} from "react-router-dom";
 import { useState,useEffect } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, User, KeyRound } from "lucide-react";
 import {Button } from "@/components/ui/button";
 import Modal from "./Modal";
 import api from "@/services/api";
 import { jwtDecode } from "jwt-decode";
 import {Dialog, DialogTitle, DialogContent} from "@/components/ui/dialog";
 import {Input} from "@/components/ui/input";
+import NotificationBell from "./notifications/NotificationBell";
 
 export default function TopBar() {
     const navigate = useNavigate();
@@ -84,7 +85,10 @@ export default function TopBar() {
 
     return (
         <div className="flex items-center justify-between h-14 px-6">
-            <h1 className="text-lg font-semibold">Hi, {user.username}</h1>
+            <div className="flex gap-7 items-center">
+                <h1 className="text-lg font-semibold">Hi, {user.username}</h1>
+                <NotificationBell />
+            </div>
 
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-3">
@@ -100,10 +104,12 @@ export default function TopBar() {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end" className="bg-gray-200">
-                    <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setActiveModal("Change password")}>Change Password</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/profile")}>
+                        <User className="w-4 h-4"/>Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setActiveModal("Change password")}>
+                        <KeyRound className="w-4 h-4"/>Change Password</DropdownMenuItem>
                     <DropdownMenuItem onClick= {() => setActiveModal("logout")}>
-                           <LogOut className="w-4 h-4"/>Logout
+                        <LogOut className="w-4 h-4"/>Logout
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

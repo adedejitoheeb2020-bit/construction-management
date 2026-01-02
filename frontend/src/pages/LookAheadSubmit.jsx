@@ -40,7 +40,7 @@ export default function LookAheadSubmit () {
     }
 
     return (
-        <Card>
+        <Card >
             <div className="relative p-8">
                 {isSubmitted && (
                     <div className="fixed top-10 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500">Lookahead has been submitted successfully! </div>

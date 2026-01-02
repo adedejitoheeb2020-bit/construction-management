@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import EditProfileModal from "./EditProfileModal";
 import api from "@/services/api";
 import { Card } from "@/components/ui/card";
+import {User, Briefcase, Phone, Building2} from "lucide-react";
 
 export default function ProfilePage () {
     const [user, setUser] = useState({});
@@ -39,25 +40,28 @@ export default function ProfilePage () {
                 </div>
 
                 <div className="grid grid-cols-2 gap-6">
-                    <ProfileItem label="Username" value={user.username || "-"} />
-                    <ProfileItem label="Role" value={user.role || "-"} />
-                    <ProfileItem label="Phone" value={user.phone || "-"} />
-                    <ProfileItem label="Organization" value={user.organization_name || "-"} />
+                    <ProfileItem icon={<User />} label="Username" value={user.username || "-"} />
+                    <ProfileItem icon={<Briefcase />} label="Role" value={user.role || "-"} />
+                    <ProfileItem icon={<Phone />} label="Phone Number" value={user.phone || "-"} />
+                    <ProfileItem icon={<Building2 />} label="Organization" value={user.organization_name || "-"} />
                 </div>
 
                 <Button onClick={() => setOpen(true)}>Edit Profile</Button>
 
-                <EditProfileModal open={open} onClose={() => setOpen(false)} />
+                <EditProfileModal open={open} onClose={() => setOpen(false)} user={user} setUser={setUser} />
             </div>
         </Card>
     )
 }
 
-function ProfileItem({label, value}) {
+function ProfileItem({label, value, icon}) {
     return (
-        <div>
-            <p className="text-sm text-gray-500">{label}</p>
-            <p className="fony-medium">{value}</p>
+        <div className="flex gap-3 items-center">
+            <div className="w-4 h-4">{icon}</div>
+            <div>
+                <p className="text-sm text-gray-500">{label}</p>
+                <p className="fony-medium">{value}</p>
+            </div>
         </div>
     )
 }
