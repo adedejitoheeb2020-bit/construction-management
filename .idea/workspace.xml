@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="Add gitignore">
+    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="Remove ide from tracking">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/base/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/base/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/materials/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/materials/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/materials/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/materials/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/materials/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,19 +54,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/HP/Desktop/PythonProject/PythonProject/Construction Materials"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/HP/Desktop/PythonProject/PythonProject/Construction Materials&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

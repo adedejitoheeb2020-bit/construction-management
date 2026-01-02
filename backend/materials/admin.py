@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'email')
 
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('username', 'password', 'phone', 'organization')}),
         ('Roles and Permissions', {'fields': ('role', 'is_staff', 'is_active')}),
     )
 

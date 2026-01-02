@@ -41,7 +41,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     phone = models.CharField(max_length=11, unique=True, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True, default="A.T Construction Company")
     profile_pic = models.ImageField(upload_to='profile_pic', null=True, blank=True)
     ROLE_CHOICES = [
         ('pending', 'Pending Approval'),

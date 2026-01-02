@@ -10,9 +10,10 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'message', 'url', 'created_at', 'is_read', 'related_object_id', 'related_object_type']
 
 class UserSerializer(serializers.ModelSerializer):
+    organization_name = serializers.ReadOnlyField(source="organization.name")
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'role', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'role', 'first_name', 'last_name', 'phone', 'organization_name']
         read_only_fields = ['role']
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -69,7 +70,7 @@ class LookAheadItemSerializer(serializers.ModelSerializer):
 
 class LookAheadPlanSerializer(serializers.ModelSerializer):
     items = LookAheadItemSerializer(many=True)
-    created_by_name = serializers.CharField(source='created_by.get_name', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.get_username', read_only=True)
 
     class Meta:
         model = LookAheadPlan

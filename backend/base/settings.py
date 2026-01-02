@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'materials'
+    'materials',
+    'djoser'
 ]
 
 MIDDLEWARE = [
@@ -151,6 +152,18 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'username',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {
+        'user': 'materials.serializers.UserSerializer',
+        'current_user': 'materials.serializers.UserSerializer',
+        'token_obtain_pair': 'materials.serializers.CustomTokenObtainPairSerializer',
+        'user_create': 'materials.serializers.UserSerializer',
+        'user_delete': 'materials.serializers.UserSerializer',
+    }
 }
 
 from datetime import timedelta

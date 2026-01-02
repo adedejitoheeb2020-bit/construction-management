@@ -338,8 +338,8 @@ class LookAheadPlanViewSet(viewsets.ModelViewSet):
         lookahead.site_lead_comment = request.data.get("comment", "")
         lookahead.save()
         procurement_user = lookahead.project.workers.filter(role="procurement").first()
-        week_start = request.data.get("week_start")
-        week_end = request.data.get("week_end")
+        week_start = lookahead.week_start
+        week_end = lookahead.week_end
         Notification.objects.create(
             user=procurement_user,
             title="Look Ahead Plan",
