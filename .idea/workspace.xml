@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="Remove ide from tracking">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/base/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/base/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/materials/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/materials/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="f1ca4804-309f-4e61-bee7-b4fb671c6d30" name="Changes" comment="Remove ide from tracking" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +19,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
