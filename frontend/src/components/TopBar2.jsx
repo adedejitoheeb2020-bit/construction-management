@@ -15,8 +15,10 @@ export default function TopBar() {
     const navigate = useNavigate();
     const [activeModal, setActiveModal] = useState(null);
     const [user, setUser] = useState({});
-    const [form, setForm] = useState({password: "", confirmPassword: ""});
-    const [errorMsg, setErrorMsg] = useState("")
+    const [form, setForm] = useState({current_password: "", new_password: "", re_new_password: ""});
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm (prev => ({...prev, [e.target.name]: e.target.value}))
@@ -25,21 +27,30 @@ export default function TopBar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg("");
+        setIsLoading(true);
+        setSuccessMsg("");
         
-        if ( form.password !== form.confirmPassword ) {
+        if ( form.new_password !== form.re_new_password ) {
             setErrorMsg("Password do not match!");
             return;
         }    
 
         try {
-            const token = localStorage.getItem("access");
-            if (token) {
-                const decoded = jwtDecode(token);
-                const userId = decoded.user_id;
-                await api.patch(`/users/${userId}/`, form);
-            }
+            await api.post("/auth/users/set_password/", form);
+            setSuccessMsg("Password has been reset successfully!");
+            setTimeout(() => {
+                setActiveModal(null);
+                navigate(-1);
+            }, 2000)
             
-        }   catch (error) {error}
+        }   catch (error) {
+            if (error.response && error.response.data) {
+                const data = error.response.data;
+                if (data.current_password) {
+                    setErrorMsg("Invalid current password!")
+                }
+            }
+        }   finally {setIsLoading(false);}
     }
 
     const fetchuser = async () => {
@@ -59,6 +70,17 @@ export default function TopBar() {
     useEffect(() => {
         fetchuser();
     }, [])
+
+    useEffect(() => {
+        if (errorMsg || successMsg) {
+            const timer = setTimeout(() => {
+                setErrorMsg("");
+                setSuccessMsg("");
+            }, 1000
+            );
+            return () => clearTimeout(timer);
+        }
+    }, [errorMsg, successMsg]);
 
     return (
         <div className="flex items-center justify-between h-14 px-6">
@@ -87,43 +109,64 @@ export default function TopBar() {
             </DropdownMenu>
 
             <Dialog open={activeModal === "Change password"} onOpenChange={() => setActiveModal(null)}>
-                <DialogContent>
-                    <DialogTitle>Change password</DialogTitle>
-                    {errorMsg && (
-                    <p className="mb-3 text-red-600 text-sm text-center"> {errorMsg} </p>
-                    )}
+                    <DialogContent>
+                        <div className=" relative p-8">
+                            <div>
+                                {errorMsg && (
+                                    <div className="fixed top-1 left-1/2 -translate-x-1/2 bg-red-700 text-white
+                                     px-4 py-3 rounded-lg shadow-lg transition-opacity duration-500">{errorMsg}</div>
+                                )}
 
-                    <form onSubmit={handleSubmit} className="space-y-3 ">
-                        <div>
-                            <label> Set new password
-                                <Input 
-                                name="password"
-                                value={form.password}
-                                placeholder="password"
-                                type="password"
-                                onChange={handleChange}
-                                />
-                            </label>
-                        </div>
+                                {successMsg && (
+                                    <div className="fixed top-1 left-1/2 -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500">{successMsg}</div>
+                                )}
+                            </div>
 
-                        <div>
-                            <label> Confirm password
-                                <Input 
-                                name="confirmPassword"
-                                value={form.confirmPassword}
-                                placeholder="Confirm password"
-                                type="password"
-                                onChange={handleChange}
-                                />
-                            </label>
-                        </div>
+                            <div>
+                                <DialogTitle>Change password</DialogTitle>
+                                <form onSubmit={handleSubmit} className="space-y-3 ">
+                                    <div>
+                                        <label > Current Password
+                                            <Input 
+                                            name="current_password"
+                                            value={form.current_password}
+                                            type="password"
+                                            onChange={handleChange}
+                                            />
+                                        </label>
+                                    </div>
 
-                        <div className="flex justify-end gap-2">
-                            <Button variant="ghost" onClick={() => setActiveModal(null)}>Cancel</Button>
-                            <Button type="submit">Save Changes</Button>
+                                    <div>
+                                        <label> New Password
+                                            <Input 
+                                            name="new_password"
+                                            value={form.new_password}
+                                            type="password"
+                                            onChange={handleChange}
+                                            />
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <label> Confirm New Password
+                                            <Input 
+                                            name="re_new_password"
+                                            value={form.re_new_password}
+                                            type="password"
+                                            onChange={handleChange}
+                                            />
+                                        </label>
+                                    </div>
+
+
+                                    <div className="flex justify-end gap-2">
+                                        <Button variant="ghost" onClick={() => setActiveModal(null)}>Cancel</Button>
+                                        <Button type="submit" disabled={isLoading}>{isLoading ? "Saving...": "Save Changes"}</Button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
-                </DialogContent>
+                    </DialogContent>
             </Dialog>
 
             <Dialog open={activeModal === "logout"} onOpenChange={() => setActiveModal(null)}>

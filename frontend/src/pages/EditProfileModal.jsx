@@ -9,13 +9,12 @@ export default function EditProfileModal({open, onClose}) {
     const [user, setUser] = useState({});
     const [form, setForm] = useState({
         username: user.username || "",
-        password: user.password || "",
         phone: user.phone || "",
     })
    
 
     const handleChange = (e) => {
-        setForm({...form, [e.target.name]: e.target.value});
+        setForm(prev => ({...prev, [e.target.name]: e.target.value}));
     }
 
     const handleSubmit = async () => {
@@ -45,14 +44,7 @@ export default function EditProfileModal({open, onClose}) {
                   value={form.username}
                   onChange={handleChange}
                 />
-
-                <Input 
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={handleChange}
-                />
+                
 
                 <Input 
                   name="phone"
